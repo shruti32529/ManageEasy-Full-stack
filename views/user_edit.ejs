@@ -1,0 +1,36 @@
+<% layout('layout') -%>
+
+<div class="page-title-row">
+  <h1 class="page-title">Edit User</h1>
+</div>
+
+<% if (messages && messages.info) { %>
+  <div class="alert" style="background:#e6ffef;color:#154e2e;"><%= Array.isArray(messages.info) ? messages.info.join(' ') : messages.info %></div>
+<% } %>
+<% if (messages && messages.error) { %>
+  <div class="alert"><%= Array.isArray(messages.error) ? messages.error.join(' ') : messages.error %></div>
+<% } %>
+
+<div class="card">
+  <div class="card-body">
+    <form action="/users/edit/<%= user._id %>" method="POST">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="<%= user.name %>" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="<%= user.email %>" required>
+      </div>
+      <div class="form-group">
+        <label for="role">Role</label>
+        <select id="role" name="role">
+          <option value="staff" <%= user.role === 'staff' ? 'selected' : '' %>>Staff</option>
+          <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+        </select>
+      </div>
+      <button type="submit" class="btn">Save User</button>
+      <a href="/users" class="btn secondary">Cancel</a>
+    </form>
+  </div>
+</div>

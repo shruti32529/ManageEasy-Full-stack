@@ -1,0 +1,15 @@
+<% layout('layout') -%>
+
+<div class="page-title-row">
+  <h1 class="page-title">Delete User Group</h1>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <p>Are you sure you want to delete user group <strong><%= group.name %></strong>?</p>
+    <form action="/users/groups/delete/<%= group._id %>" method="POST">
+      <button type="submit" class="btn">Confirm Delete</button>
+      <a href="/users/groups" class="btn secondary">Cancel</a>
+    </form>
+  </div>
+</div>

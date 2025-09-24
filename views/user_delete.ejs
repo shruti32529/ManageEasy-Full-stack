@@ -1,0 +1,15 @@
+<% layout('layout') -%>
+
+<div class="page-title-row">
+  <h1 class="page-title">Delete User</h1>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <p>Are you sure you want to delete user <strong><%= user.name %></strong>?</p>
+    <form action="/users/delete/<%= user._id %>" method="POST">
+      <button type="submit" class="btn">Confirm Delete</button>
+      <a href="/users" class="btn secondary">Cancel</a>
+    </form>
+  </div>
+</div>

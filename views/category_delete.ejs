@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <section class="auth-form">
+      <div class="brand">ManageEasy</div>
+      <h2>Delete Category</h2>
+      <form action="/categories/delete/<%= category._id %>" method="POST">
+        <p>Are you sure you want to delete category <strong><%= category.name %></strong>?</p>
+        <div class="form-actions">
+          <button class="btn" type="submit">Confirm Delete</button>
+          <a href="/categories" class="btn secondary" style="text-decoration:none;">Cancel</a>
+        </div>
+      </form>
+    </section>
+    <aside class="auth-welcome">
+      <h3>Delete Category</h3>
+      <p>This action cannot be undone.</p>
+    </aside>
+  </div>
+</div>

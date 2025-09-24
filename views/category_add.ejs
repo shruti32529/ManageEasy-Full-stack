@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Category</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="main-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <span style="color: #66ccff; font-weight: bold;">ManageEasy</span>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="/dashboard"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+        <li class="has-submenu">
+          <a href="#" onclick="toggleSubmenu(event)">
+            <i class="fa fa-users"></i> User Management
+            <i class="fa fa-chevron-down" style="margin-left:auto;font-size:0.8em;"></i>
+          </a>
+          <ul class="submenu">
+            <li><a href="/users"><i class="fa fa-user-circle"></i> Manage Users</a></li>
+            <li><a href="/users/groups"><i class="fa fa-users-cog"></i> Manage Groups</a></li>
+          </ul>
+        </li>
+        <li><a href="/categories" class="active"><i class="fa fa-tags"></i> Categories</a></li>
+        <li><a href="/products"><i class="fa fa-box"></i> Products</a></li>
+        <li><a href="/sales"><i class="fa fa-chart-line"></i> Sales</a></li>
+        <li><a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="dashboard-content">
+    <header class="dashboard-header" style="display:flex;align-items:center;justify-content:space-between;">
+      <h1 class="page-title">Add New Category</h1>
+      <a href="/categories" class="btn-action secondary"><i class="fa fa-arrow-left"></i> Back</a>
+    </header>
+
+    <% if (messages && messages.error) { %>
+      <div class="alert error"><%= Array.isArray(messages.error) ? messages.error.join(' ') : messages.error %></div>
+    <% } %>
+
+    <div class="card">
+      <div class="card-header">Category Details</div>
+      <div class="card-body">
+        <form action="/categories/add" method="POST" class="form">
+          <div class="form-group">
+            <label for="name">Category Name</label>
+            <input id="name" name="name" type="text" required placeholder="Enter category name" />
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input id="description" name="description" type="text" placeholder="Enter description" />
+          </div>
+          <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status" name="status" required>
+              <option value="Active" selected>Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button class="btn-action" type="submit"><i class="fa fa-save"></i> Save</button>
+            <a href="/categories" class="btn-action secondary"><i class="fa fa-times"></i> Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- CSS (same as dashboard) -->
+<style>
+  body { font-family:'Open Sans',sans-serif;color:#212529;background:#f8f9fa;margin:0;display:flex;min-height:100vh; }
+  .main-container{ display:flex;width:100%; }
+  .sidebar{ width:250px;background:#34495e;color:#fff;padding:20px;display:flex;flex-direction:column;justify-content:space-between; }
+  .sidebar-header{ font-size:2em;font-weight:bold;margin-bottom:20px; }
+  .sidebar-nav ul{ list-style:none;padding:0;margin:0; }
+  .sidebar-nav a{ color:#fff;text-decoration:none;font-size:1.1em;display:block;padding:10px;border-radius:5px; }
+  .sidebar-nav a.active,.sidebar-nav a:hover{ background:#2c3e50; }
+  .submenu{ list-style:none;padding-left:34px;margin:0;max-height:0;overflow:hidden;transition:max-height 0.3s ease; }
+  .has-submenu.open .submenu{ max-height:500px; }
+  .dashboard-content{ flex-grow:1;padding:20px; }
+  .page-title{ margin:0;font-weight:700;color:#212529; }
+  .card{ background:#fff;border:1px solid #e9ecef;border-radius:8px;box-shadow:0 4px 6px rgba(0,0,0,0.05);margin-bottom:20px; }
+  .card-header{ padding:16px;border-bottom:1px solid #e9ecef;font-weight:600;color:#495057;background:#f8f9fa; }
+  .card-body{ padding:20px; }
+  .form-group{ margin-bottom:16px; }
+  .form-group label{ display:block;margin-bottom:6px;font-weight:600; }
+  .form-group input,.form-group select{ width:100%;padding:10px;border:1px solid #ced4da;border-radius:6px;font-size:1em; }
+  .form-actions{ display:flex;gap:10px; }
+  .btn-action{ padding:8px 14px;border-radius:6px;background:#007bff;color:#fff;text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:6px;font-size:0.9em;border:none;cursor:pointer; }
+  .btn-action.secondary{ background:#6c757d; }
+  .btn-action:hover{ opacity:0.9; }
+  .alert{ padding:10px 14px;border-radius:6px;margin-bottom:15px;font-weight:600; }
+  .alert.error{ background:#f8d7da;color:#721c24; }
+</style>
+
+<script>
+  function toggleSubmenu(e) {
+    e.preventDefault();
+    const parent = e.currentTarget.parentElement;
+    parent.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
