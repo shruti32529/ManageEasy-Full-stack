@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Groups</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="mb-4">Manage Groups</h2>
+
+    <% if (messages.error) { %>
+      <div class="alert alert-danger"><%= messages.error[0] %></div>
+    <% } %>
+    <% if (messages.info) { %>
+      <div class="alert alert-success"><%= messages.info[0] %></div>
+    <% } %>
+
+    <a href="/groups/add" class="btn btn-primary mb-3">+ Add Group</a>
+
+    <% if (groups.length > 0) { %>
+      <table class="table table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% groups.forEach((group, index) => { %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= group.name %></td>
+              <td><%= group.description %></td>
+              <td>
+                <a href="/groups/edit/<%= group._id %>" class="btn btn-sm btn-warning">Edit</a>
+                <form action="/groups/delete/<%= group._id %>" method="POST" class="d-inline">
+                  <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this group?')">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <div class="alert alert-info">No groups found. Add one!</div>
+    <% } %>
+  </div>
+</body>
+</html>

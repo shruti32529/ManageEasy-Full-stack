@@ -1,9 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const groupSchema = new mongoose.Schema({
-  groupName: { type: String, required: true, unique: true },
-  groupLevel: { type: Number, required: true },
-  status: { type: String, enum: ['Active', 'Inactive'], default: 'Active' }
-});
+const UserGroupSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true, unique: true, trim: true },
+    description: { type: String, trim: true }
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.models.Group || mongoose.model('Group', groupSchema);
+module.exports = mongoose.model("UserGroup", UserGroupSchema);

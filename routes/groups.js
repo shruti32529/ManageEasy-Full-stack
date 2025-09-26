@@ -1,65 +1,42 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const Group = require("../models/UserGroup");
 
-// Only require the Group model if it hasn't been required elsewhere in this file/module
-const Group = require('../models/UserGroup');
-
-// Manage Groups Page
-router.get('/groups', async (req, res) => {
-    try {
-        const groups = await Group.find();
-        res.render('user_groups', { groups });
-    } catch (err) {
-        res.status(500).send('Server Error');
-    }
+// Show all groups
+router.get("/", async (req, res) => {
+  try {
+    const groups = await Group.find().sort({ createdAt: -1 });
+    res.render("groups", { groups, messages: req.flash() });
+  } catch (err) {
+    console.error(err);
+    req.flash("error", "Failed to load groups.");
+    res.redirect("/");
+  }
 });
 
-// Add Group Form
-router.get('/groups/add', (req, res) => {
-    res.render('user_group_add');
+// Show add group form
+router.get("/add", (req, res) => {
+  res.render("addGroup", { messages: req.flash() });
 });
 
-// Add Group POST
-router.post('/groups/add', async (req, res) => {
-    try {
-        const { groupName, groupLevel, status } = req.body;
-        const newGroup = new Group({ groupName, groupLevel, status });
-        await newGroup.save();
-        res.redirect('/users/groups');
-    } catch (err) {
-        res.status(500).send('Error saving group');
-    }
-});
+// Handle add group
+router.post("/add", async (req, res) => {
+  try {
+    const { name, description } = req.body;
 
-// Edit Group Form
-router.get('/groups/edit/:id', async (req, res) => {
-    try {
-        const group = await Group.findById(req.params.id);
-        res.render('user_group_edit', { group });
-    } catch (err) {
-        res.status(500).send('Error fetching group');
+    if (!name) {
+      req.flash("error", "Group name is required.");
+      return res.redirect("/groups/add");
     }
-});
 
-// Update Group
-router.post('/groups/edit/:id', async (req, res) => {
-    try {
-        const { groupName, groupLevel, status } = req.body;
-        await Group.findByIdAndUpdate(req.params.id, { groupName, groupLevel, status });
-        res.redirect('/users/groups');
-    } catch (err) {
-        res.status(500).send('Error updating group');
-    }
-});
-
-// Delete Group
-router.get('/groups/delete/:id', async (req, res) => {
-    try {
-        await Group.findByIdAndDelete(req.params.id);
-        res.redirect('/users/groups');
-    } catch (err) {
-        res.status(500).send('Error deleting group');
-    }
+    await Group.create({ name, description });
+    req.flash("success", "Group added successfully!");
+    res.redirect("/groups");
+  } catch (err) {
+    console.error(err);
+    req.flash("error", "Failed to add group. Maybe name already exists?");
+    res.redirect("/groups/add");
+  }
 });
 
 module.exports = router;
